@@ -2,7 +2,7 @@ import { CountdownTimer } from './components/CountdownTimer';
 
 export default function App() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-6 md:p-12 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+    <main className="min-h-screen flex flex-col items-center justify-center p-6 md:p-12 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 font-poppins">
       <div className="max-w-6xl w-full space-y-8 pt-2 md:space-y-16">
         
         <div className="text-center space-y-2">

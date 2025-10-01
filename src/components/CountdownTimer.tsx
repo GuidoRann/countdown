@@ -60,16 +60,16 @@ export function CountdownTimer() {
       }
 
       if (newTimeLeft.days !== prevTime.days) {
-        // Cuando cambian días, brillan días, horas, minutos y segundos
+
         newGlowingUnits = { days: true, hours: true, minutes: true, seconds: true }
       } else if (newTimeLeft.hours !== prevTime.hours) {
-        // Cuando cambian horas, brillan horas, minutos y segundos
+
         newGlowingUnits = { days: false, hours: true, minutes: true, seconds: true }
       } else if (newTimeLeft.minutes !== prevTime.minutes) {
-        // Cuando cambian minutos, brillan minutos y segundos
+
         newGlowingUnits = { days: false, hours: false, minutes: true, seconds: true }
       } else if (newTimeLeft.seconds !== prevTime.seconds) {
-        // Cuando cambian segundos, solo brillan segundos
+
         newGlowingUnits = { days: false, hours: false, minutes: false, seconds: true }
       }
 

@@ -8,7 +8,7 @@ export function FlipDigit({ value, label, isGlowing = false }: FlipDigitProps) {
   const digits = String(value).padStart(2, "0").split("")
 
   return (
-    <div className="flex flex-col items-center gap-1">
+    <div className="flex flex-col items-center gap-1 md:gap-3">
       <div className="flex gap-2">
         {digits.map((digit, index) => (
           <div
