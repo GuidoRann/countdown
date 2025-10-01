@@ -8,6 +8,13 @@ interface TimeLeft {
   seconds: number
 }
 
+interface GlowingUnits {
+  days: boolean
+  hours: boolean
+  minutes: boolean
+  seconds: boolean
+}
+
 export function CountdownTimer() {
   const targetDate = new Date("2025-10-08T00:00:00")
 
@@ -27,7 +34,12 @@ export function CountdownTimer() {
   }
 
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft())
-  const [glowingUnit, setGlowingUnit] = useState<string | null>(null)
+  const [glowingUnits, setGlowingUnits] = useState<GlowingUnits>({
+    days: false,
+    hours: false,
+    minutes: false,
+    seconds: false,
+  })
   const prevTimeRef = useRef<TimeLeft>(timeLeft)
   const glowTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -40,22 +52,31 @@ export function CountdownTimer() {
         clearTimeout(glowTimeoutRef.current)
       }
 
-      let changedUnit: string | null = null
-
-      if (newTimeLeft.seconds !== prevTime.seconds) {
-        changedUnit = "seconds"
-      } else if (newTimeLeft.minutes !== prevTime.minutes) {
-        changedUnit = "minutes"
-      } else if (newTimeLeft.hours !== prevTime.hours) {
-        changedUnit = "hours"
-      } else if (newTimeLeft.days !== prevTime.days) {
-        changedUnit = "days"
+      let newGlowingUnits: GlowingUnits = {
+        days: false,
+        hours: false,
+        minutes: false,
+        seconds: false,
       }
 
-      if (changedUnit) {
-        setGlowingUnit(changedUnit)
+      if (newTimeLeft.days !== prevTime.days) {
+        // Cuando cambian días, brillan días, horas, minutos y segundos
+        newGlowingUnits = { days: true, hours: true, minutes: true, seconds: true }
+      } else if (newTimeLeft.hours !== prevTime.hours) {
+        // Cuando cambian horas, brillan horas, minutos y segundos
+        newGlowingUnits = { days: false, hours: true, minutes: true, seconds: true }
+      } else if (newTimeLeft.minutes !== prevTime.minutes) {
+        // Cuando cambian minutos, brillan minutos y segundos
+        newGlowingUnits = { days: false, hours: false, minutes: true, seconds: true }
+      } else if (newTimeLeft.seconds !== prevTime.seconds) {
+        // Cuando cambian segundos, solo brillan segundos
+        newGlowingUnits = { days: false, hours: false, minutes: false, seconds: true }
+      }
+
+      if (newGlowingUnits.days || newGlowingUnits.hours || newGlowingUnits.minutes || newGlowingUnits.seconds) {
+        setGlowingUnits(newGlowingUnits)
         glowTimeoutRef.current = setTimeout(() => {
-          setGlowingUnit(null)
+          setGlowingUnits({ days: false, hours: false, minutes: false, seconds: false })
           glowTimeoutRef.current = null
         }, 500)
       }
@@ -74,10 +95,10 @@ export function CountdownTimer() {
 
   return (
     <div className="flex flex-col md:flex-row flex-wrap justify-center gap-6 md:gap-8 lg:gap-12">
-      <FlipDigit value={timeLeft.days} label="Días" isGlowing={glowingUnit === "days"} />
-      <FlipDigit value={timeLeft.hours} label="Horas" isGlowing={glowingUnit === "hours"} />
-      <FlipDigit value={timeLeft.minutes} label="Minutos" isGlowing={glowingUnit === "minutes"} />
-      <FlipDigit value={timeLeft.seconds} label="Segundos" isGlowing={glowingUnit === "seconds"} />
+      <FlipDigit value={timeLeft.days} label="Días" isGlowing={glowingUnits.days} />
+      <FlipDigit value={timeLeft.hours} label="Horas" isGlowing={glowingUnits.hours} />
+      <FlipDigit value={timeLeft.minutes} label="Minutos" isGlowing={glowingUnits.minutes} />
+      <FlipDigit value={timeLeft.seconds} label="Segundos" isGlowing={glowingUnits.seconds} />
     </div>
   )
 }
