@@ -6,7 +6,7 @@ export default function App() {
       <div className="max-w-6xl w-full space-y-8 pt-2 md:space-y-16">
         
         <div className="text-center space-y-2">
-          <h1 className="text-5xl md:text-7xl lg:text-9xl font-bold tracking-tight">
+          <h1 className="text-5xl md:text-7xl lg:text-9xl font-bold leading-none tracking-tight">
             <span className="text-white">Nos vamos a</span>
             <br />
             <span className="text-5xl lg:text-9xl text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-purple-300">
